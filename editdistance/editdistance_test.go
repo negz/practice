@@ -15,6 +15,7 @@ var distanceTests = []struct {
 	{"hog", "frog", 2},
 	{"frog", "log", 2},
 	{"intention", "execution", 5},
+	{"abcdefgh", "1ab2cd3ef4gh5", 5},
 }
 
 func TestDistance(t *testing.T) {
