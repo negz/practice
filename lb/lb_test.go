@@ -78,3 +78,11 @@ func TestBackendWeight(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkLoadBalancer(b *testing.B) {
+	lb := NewLoadBalancer(lbTests[0].backends)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		lb.Next()
+	}
+}

@@ -15,31 +15,25 @@ type Backend struct {
 }
 
 type LoadBalancer struct {
-	b           []*Backend
-	totalWeight int
+	w map[int]*Backend
 }
 
 func NewLoadBalancer(backends []*Backend) *LoadBalancer {
 	rand.Seed(time.Now().UnixNano())
-	lb := &LoadBalancer{b: backends, totalWeight: 0}
-	for _, backend := range lb.b {
-		lb.totalWeight += backend.Weight
+	lb := &LoadBalancer{w: make(map[int]*Backend)}
+	i := 0
+	for _, b := range backends {
+		for j := 0; j < b.Weight; j++ {
+			lb.w[i] = b
+			i++
+		}
 	}
 	return lb
 }
 
 func (lb *LoadBalancer) Next() *Backend {
 	// Pick a random number from 0 -> totalWeight
-	choice := rand.Intn(lb.totalWeight)
-
-	currentWeight := 0
-	// If that number falls in an LB's 'weight range' pick it
-	for _, backend := range lb.b {
-		currentWeight += backend.Weight
-		if choice <= currentWeight {
-			backend.Handled++
-			return backend
-		}
-	}
-	return nil
+	b := lb.w[rand.Intn(len(lb.w))]
+	b.Handled++
+	return b
 }
