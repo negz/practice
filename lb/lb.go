@@ -32,7 +32,6 @@ func NewLoadBalancer(backends []*Backend) *LoadBalancer {
 }
 
 func (lb *LoadBalancer) Next() *Backend {
-	// Pick a random number from 0 -> totalWeight
 	b := lb.w[rand.Intn(len(lb.w))]
 	b.Handled++
 	return b
