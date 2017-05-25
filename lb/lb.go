@@ -32,7 +32,7 @@ func NewLoadBalancer(backends []*Backend) *LoadBalancer {
 }
 
 func (lb *LoadBalancer) Next() *Backend {
-	b, ok := lb.w[rand.Intn(len(lb.w)-1)]
+	b := lb.w[rand.Intn(len(lb.w)-1)]
 	b.Handled++
 	return b
 }
