@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package proto;
+
+service Shortener {
+    rpc Create(CreateRequest) returns (CreateResponse) {}
+    rpc Get(GetRequest) returns (GetResponse) {}
+}
+
+message Status {
+    uint32 code = 1;
+    string message = 2;
+}
+
+message Metadata {
+    string key = 1;
+    string value = 2;
+}
+
+message CreateRequest {
+    repeated Metadata metadata = 1;
+    string URL = 2;
+}
+
+message CreateResponse {
+    Status status = 1;
+    string path = 2;
+}
+
+message GetRequest {
+    repeated Metadata metadata = 1;
+    string path = 2;
+}
+
+message GetResponse {
+    Status status = 1;
+    string URL = 2;
+}
